@@ -1353,6 +1353,8 @@
       flex: 1;
       min-width: 220px;
       max-width: 300px;
+      max-height: 260px;
+      overflow-y: auto;
       background: #f9fafb;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
@@ -1506,6 +1508,31 @@
 
     .comp-gallery-item:hover img {
       opacity: 0.85;
+    }
+
+    .cod-section-title {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #6b7280;
+      text-transform: uppercase;
+      margin: 12px 0 6px;
+      padding-top: 10px;
+      border-top: 1px solid #e5e7eb;
+    }
+
+    .cod-gallery.comp-gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 5px;
+    }
+
+    .cod-gallery .comp-gallery-item img {
+      height: 42px;
+    }
+
+    .cod-gallery .comp-gallery-label {
+      font-size: 8px;
+      padding: 3px 4px;
     }
 
     .comp-gallery-label {
@@ -1817,42 +1844,6 @@
     <div class="comp-panel comp-grid-full">
       <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="9" />
-            <path d="M12 7v5l3 3" />
-          </svg> EXPIRED DATE CHECK</span><span class="comp-hint">per SKU, diurutkan yang paling mendekati dulu</span>
-      </div>
-      <div class="comp-table-wrap" style="max-height:220px">
-        <table class="comp-table">
-          <thead>
-            <tr>
-              <th>SKU Nabati</th>
-              <th>Expired Date</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody id="compExpiredBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <div class="comp-panel comp-grid-full">
-      <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
-            <rect x="4" y="4" width="16" height="16" rx="2" />
-            <path d="M4 15l4 -4a2 2 0 0 1 3 0l5 5" />
-            <path d="M14 13l1 -1a2 2 0 0 1 3 0l2 2" />
-            <circle cx="9" cy="9" r="1" />
-          </svg> SHELVING MONITORING — GALERI FOTO</span><span class="comp-hint">dummy — foto placeholder</span></div>
-      <div style="font-size:10.5px;color:#6b7280;font-weight:600;margin-bottom:8px">Full Rack per Kategori</div>
-      <div class="comp-gallery-grid" id="compGalleryCategory"></div>
-      <div style="font-size:10.5px;color:#6b7280;font-weight:600;margin:14px 0 8px">Regular Shelf per Brand</div>
-      <div class="comp-gallery-grid" id="compGalleryBrand"></div>
-      <div class="comp-note">Objective: menghitung Share of Space per kategori dari foto full rack</div>
-    </div>
-
-    <div class="comp-panel comp-grid-full">
-      <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-            stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16" />
             <path d="M4 12h16" />
             <path d="M4 18h16" />
@@ -1935,21 +1926,21 @@
     // ==================== COMPETITOR DATA (FR-060 s/d FR-067) ====================
     // Head-to-head mapping: 15 SKU Nabati vs 15 produk kompetitor (BR-050: SAT & MTI)
     const COMPETITOR_PAIRS = [
-      { sku: 'NABATI RICHEESE 110g', brand: 'TANGO', comp: 'TANGO 100g' },
-      { sku: 'NABATI RICHOCO 110g', brand: 'TANGO', comp: 'TANGO 100g' },
-      { sku: 'NABATI WHITE 110g', brand: 'TANGO', comp: 'TANGO 100g' },
-      { sku: 'NABATI STW 110g', brand: 'TANGO', comp: 'TANGO 100g' },
-      { sku: 'NEXTAR PIE RICHOCO 144g', brand: 'LOTTE PIE', comp: 'LOTTE PIE 156g (6 pcs)' },
-      { sku: 'NEXTAR PIE STW 144g', brand: 'LOTTE PIE', comp: 'LOTTE PIE 156g (6 pcs)' },
-      { sku: 'RF RICH BURGER 54g', brand: 'JAPOTA', comp: 'JAPOTA 65g' },
-      { sku: 'RF BBQ 54g', brand: 'PIATOS', comp: 'PIATOS 68g' },
-      { sku: 'RF FIREWING 54g', brand: 'JAPOTA', comp: 'JAPOTA 65g' },
-      { sku: 'RF SEAWEED 54g', brand: 'POTABEE', comp: 'POTABEE 68g' },
-      { sku: 'SIIP RICHEESE 40g', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
-      { sku: 'SIIP RICHOCO 40g', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
-      { sku: 'SIIP CORN 40g', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
-      { sku: 'NEXTAR BROWNIES 80g', brand: 'ARDEN', comp: 'ARDEN 72g' },
-      { sku: 'NEXTAR PINEAPPLE 80g', brand: 'ARDEN', comp: 'ARDEN 72g' },
+      { sku: 'NABATI RICHEESE 110g', kategori: 'WAFER FLAT', brand: 'TANGO', comp: 'TANGO 100g' },
+      { sku: 'NABATI RICHOCO 110g', kategori: 'WAFER FLAT', brand: 'TANGO', comp: 'TANGO 100g' },
+      { sku: 'NABATI WHITE 110g', kategori: 'WAFER FLAT', brand: 'TANGO', comp: 'TANGO 100g' },
+      { sku: 'NABATI STW 110g', kategori: 'WAFER FLAT', brand: 'TANGO', comp: 'TANGO 100g' },
+      { sku: 'NEXTAR PIE RICHOCO 144g', kategori: 'BISCUIT', brand: 'LOTTE PIE', comp: 'LOTTE PIE 156g (6 pcs)' },
+      { sku: 'NEXTAR PIE STW 144g', kategori: 'BISCUIT', brand: 'LOTTE PIE', comp: 'LOTTE PIE 156g (6 pcs)' },
+      { sku: 'RF RICH BURGER 54g', kategori: 'SNACK', brand: 'JAPOTA', comp: 'JAPOTA 65g' },
+      { sku: 'RF BBQ 54g', kategori: 'SNACK', brand: 'PIATOS', comp: 'PIATOS 68g' },
+      { sku: 'RF FIREWING 54g', kategori: 'SNACK', brand: 'JAPOTA', comp: 'JAPOTA 65g' },
+      { sku: 'RF SEAWEED 54g', kategori: 'SNACK', brand: 'POTABEE', comp: 'POTABEE 68g' },
+      { sku: 'SIIP RICHEESE 40g', kategori: 'SNACK', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
+      { sku: 'SIIP RICHOCO 40g', kategori: 'SNACK', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
+      { sku: 'SIIP CORN 40g', kategori: 'SNACK', brand: 'CHIKI BALLS', comp: 'CHIKI BALLS 50g' },
+      { sku: 'NEXTAR BROWNIES 80g', kategori: 'BISCUIT', brand: 'ARDEN', comp: 'ARDEN 72g' },
+      { sku: 'NEXTAR PINEAPPLE 80g', kategori: 'BISCUIT', brand: 'ARDEN', comp: 'ARDEN 72g' },
     ];
 
     // Deterministic pseudo-random (seeded by string) — supaya angka stabil per pair+channel, bukan acak tiap render
@@ -2128,7 +2119,7 @@
       // Toggle main dashboard vs Competitor page (mode-level, top-level page, bukan sub-tab di channel)
       if (mainPage) mainPage.style.display = state.mode === 'competitor' ? 'none' : '';
       if (competitorPage) competitorPage.style.display = state.mode === 'competitor' ? 'flex' : 'none';
-      // ECERAN/SKU filter gak relevan untuk Competitor page (SKU-nya beda list, dipilih via search di dalam page)
+      // ECERAN/SKU filter gak relevan untuk Competitor page
       if (fEceran) fEceran.style.display = state.mode === 'competitor' ? 'none' : '';
       if (fSku) fSku.style.display = state.mode === 'competitor' ? 'none' : '';
 
@@ -2278,7 +2269,7 @@
         const badge = document.createElement('span');
         badge.className = 'filter-badge';
         badge.innerHTML = `${a.label}<span class="x">✕</span>`;
-        badge.querySelector('.x').addEventListener('click', () => { a.clear(); renderAll(); updateFilterUI(); });
+        badge.querySelector('.x').addEventListener('click', () => { a.clear(); if (state.mode === 'competitor') { renderCompetitorPage(); } else { renderAll(); } updateFilterUI(); });
         container.appendChild(badge);
       });
 
@@ -2928,6 +2919,8 @@
     <div class="cod-row"><span class="cod-label">Ketersediaan Produk Nabati</span>${flag(o.pkm_ketersediaan_produk)}</div>
     <div class="cod-row"><span class="cod-label">Kesesuaian Facing</span>${flag(o.pkm_kesesuaian_facing)}</div>
     <div class="cod-row"><span class="cod-label">Kompetitor Terdeteksi</span>${flag(o.pkm_competitor_present)}</div>
+    ${buildOutletExpiredHTML(o)}
+    ${buildOutletGalleryHTML(o)}
     <div class="comp-note" style="margin-top:10px">${isExample ? 'Klik outlet lain di peta untuk lihat ringkasannya' : 'Ringkasan level outlet dari hasil survey shelving terakhir'}</div>
   `;
     }
@@ -3133,12 +3126,11 @@
       }).join('') || '<div class="no-data">Belum ada data adjacency</div>';
       document.getElementById('compAdjacencyNote').textContent = `Most Frequent Adjacent Competitor — dari ${totalObs} observasi kiri/kanan shelving (${rows.length} SKU × 2 sisi${state.channel === 'ALL' ? ' × 2 channel' : ''})`;
 
-      // ---- Compliance tambahan: Price Tag, Expired Date, Kondisi Rak (gap dari brief survey) ----
+      // ---- Compliance tambahan: Price Tag, Kondisi Rak (gap dari brief survey) ----
       renderCompComplianceRow(rows);
       renderCompPromoBreakdown();
       renderCompDisplayKondisi();
-      renderCompExpiredTable(rows);
-      renderCompGallery();
+      // Expired Date Check & Shelving Monitoring galeri sekarang muncul di panel outlet (klik marker di peta)
 
       // ---- FR-066 Head-to-head table + ranking ----
       renderCompTable(rows);
@@ -3220,42 +3212,53 @@
     `;
     }
 
-    // Expired Date Check — table per SKU (brief PRODUCT section)
-    function renderCompExpiredTable(rows) {
-      const el = document.getElementById('compExpiredBody');
-      if (!el) return;
+    // Expired Date Check — dibuat per OUTLET (dummy, seeded per nama outlet), dipanggil dari panel klik-marker
+    function buildOutletExpiredHTML(outlet) {
       const statusLabel = { aman: 'Aman', mendekati: 'Mendekati', lewat: 'Lewat Expired' };
-      const sorted = [...rows].sort((a, b) => {
-        const order = { lewat: 0, mendekati: 1, aman: 2 };
-        return order[a.expiredStatus] - order[b.expiredStatus];
-      });
-      el.innerHTML = sorted.map(r => `
-      <tr>
-        <td style="font-weight:600">${r.sku}</td>
-        <td>${r.expiredLabel}</td>
-        <td><span class="comp-badge ${r.expiredStatus === 'aman' ? 'good' : r.expiredStatus === 'mendekati' ? 'neutral' : 'bad'}">${statusLabel[r.expiredStatus]}</span></td>
-      </tr>
-    `).join('');
+      const rows = COMPETITOR_PAIRS.map(p => {
+        const rnd = seededRand('exp|' + outlet.name + '|' + p.sku);
+        const offset = -2 + Math.floor(rnd() * 16);
+        const d = new Date(2026, 8 + offset, 1);
+        const label = String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+        const status = offset < 0 ? 'lewat' : offset <= 2 ? 'mendekati' : 'aman';
+        return { sku: p.sku, label, status };
+      }).sort((a, b) => ({ lewat: 0, mendekati: 1, aman: 2 }[a.status]) - ({ lewat: 0, mendekati: 1, aman: 2 }[b.status]));
+      const top = rows.filter(r => r.status !== 'aman').slice(0, 5);
+      const shown = top.length ? top : rows.slice(0, 3);
+      return `
+      <div class="cod-section-title">Expired Date Check</div>
+      ${shown.map(r => `
+        <div class="cod-row"><span class="cod-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px" title="${r.sku}">${r.sku}</span>
+          <span style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:9.5px;color:#9ca3af">${r.label}</span><span class="comp-badge ${r.status === 'aman' ? 'good' : r.status === 'mendekati' ? 'neutral' : 'bad'}">${statusLabel[r.status]}</span></span>
+        </div>
+      `).join('')}
+      ${!top.length ? '<div class="comp-note">Semua SKU aman, nggak ada yang mendekati/lewat expired</div>' : ''}
+    `;
     }
 
-    // Galeri foto Shelving Monitoring — dummy, reuse foto yang udah ada di DATA (brief SHELVING MONITORING section)
-    function renderCompGallery() {
-      const catEl = document.getElementById('compGalleryCategory');
-      const brandEl = document.getElementById('compGalleryBrand');
-      if (!catEl || !brandEl) return;
-      const photoAt = i => COMP_PHOTO_POOL.length ? COMP_PHOTO_POOL[i % COMP_PHOTO_POOL.length] : '';
-      catEl.innerHTML = SHELVING_CATEGORIES.map((label, i) => `
-      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i)}', 'Full Rack — ${label}')">
+    // Galeri foto Shelving Monitoring — dibuat per OUTLET (dummy, reuse foto yang udah ada di DATA), dipanggil dari panel klik-marker
+    function buildOutletGalleryHTML(outlet) {
+      const rnd = seededRand('gallery|' + outlet.name);
+      const startIdx = COMP_PHOTO_POOL.length ? Math.floor(rnd() * COMP_PHOTO_POOL.length) : 0;
+      const photoAt = i => COMP_PHOTO_POOL.length ? COMP_PHOTO_POOL[(startIdx + i) % COMP_PHOTO_POOL.length] : '';
+      const catHTML = SHELVING_CATEGORIES.map((label, i) => `
+      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i)}', '${outlet.name} — Full Rack ${label}')">
         <img src="${photoAt(i)}" alt="${label}" loading="lazy">
         <div class="comp-gallery-label">${label}</div>
       </div>
     `).join('');
-      brandEl.innerHTML = SHELVING_BRANDS.map((label, i) => `
-      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i + 3)}', 'Reg Shelf — ${label}')">
+      const brandHTML = SHELVING_BRANDS.map((label, i) => `
+      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i + 3)}', '${outlet.name} — Reg Shelf ${label}')">
         <img src="${photoAt(i + 3)}" alt="${label}" loading="lazy">
         <div class="comp-gallery-label">${label}</div>
       </div>
     `).join('');
+      return `
+      <div class="cod-section-title">Shelving Monitoring — Full Rack</div>
+      <div class="comp-gallery-grid cod-gallery">${catHTML}</div>
+      <div class="cod-section-title" style="margin-top:10px">Reg Shelf per Brand</div>
+      <div class="comp-gallery-grid cod-gallery">${brandHTML}</div>
+    `;
     }
 
     function renderCompTable(rows) {
