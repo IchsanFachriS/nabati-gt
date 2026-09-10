@@ -1482,6 +1482,41 @@
       background: #fee2e2;
       color: #dc2626;
     }
+
+    .comp-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 8px;
+    }
+
+    .comp-gallery-item {
+      cursor: pointer;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f1f3f8;
+      border: 1px solid #e5e7eb;
+    }
+
+    .comp-gallery-item img {
+      width: 100%;
+      height: 78px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .comp-gallery-item:hover img {
+      opacity: 0.85;
+    }
+
+    .comp-gallery-label {
+      font-size: 9.5px;
+      font-weight: 600;
+      color: #4b5563;
+      padding: 5px 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   </style>
 </head>
 
@@ -1660,6 +1695,7 @@
     </div>
 
     <div class="comp-summary-row" id="compKpiRow"></div>
+    <div class="comp-summary-row" id="compComplianceRow" style="margin-top:-2px"></div>
 
     <div class="comp-panel comp-grid-full">
       <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -1723,6 +1759,44 @@
       <div class="comp-panel">
         <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
               stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21v-4a4 4 0 1 1 4 4h-4" />
+              <path d="M21 3l-9 9" />
+            </svg> JENIS PROMO</span><span class="comp-hint">breakdown per tipe promo</span></div>
+        <div id="compPromoTypeBars"></div>
+      </div>
+      <div class="comp-panel">
+        <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 4h10a1 1 0 0 1 1 1v10" />
+              <path d="M5 20l14 -14" />
+            </svg> MATERI PROMO</span><span class="comp-hint">wobbler/POP/shelf talker</span></div>
+        <div id="compPromoMaterialBars"></div>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <div class="comp-panel">
+        <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+              <path d="M4 9h16" />
+            </svg> DISPLAY TAMBAHAN PER JENIS</span><span class="comp-hint">kasir/floor/gondola</span></div>
+        <div id="compDisplayTypeBars"></div>
+      </div>
+      <div class="comp-panel">
+        <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="4" width="16" height="16" rx="2" />
+              <path d="M9 9h6v6h-6z" />
+            </svg> KONDISI RAK</span><span class="comp-hint">level toko</span></div>
+        <div id="compKondisiRakBars"></div>
+      </div>
+    </div>
+
+    <div class="comp-grid">
+      <div class="comp-panel">
+        <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 4h16v4h-16z" />
               <path d="M4 12h16v4h-16z" />
               <path d="M4 20h10" />
@@ -1743,6 +1817,42 @@
     <div class="comp-panel comp-grid-full">
       <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 7v5l3 3" />
+          </svg> EXPIRED DATE CHECK</span><span class="comp-hint">per SKU, diurutkan yang paling mendekati dulu</span>
+      </div>
+      <div class="comp-table-wrap" style="max-height:220px">
+        <table class="comp-table">
+          <thead>
+            <tr>
+              <th>SKU Nabati</th>
+              <th>Expired Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="compExpiredBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="comp-panel comp-grid-full">
+      <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <path d="M4 15l4 -4a2 2 0 0 1 3 0l5 5" />
+            <path d="M14 13l1 -1a2 2 0 0 1 3 0l2 2" />
+            <circle cx="9" cy="9" r="1" />
+          </svg> SHELVING MONITORING — GALERI FOTO</span><span class="comp-hint">dummy — foto placeholder</span></div>
+      <div style="font-size:10.5px;color:#6b7280;font-weight:600;margin-bottom:8px">Full Rack per Kategori</div>
+      <div class="comp-gallery-grid" id="compGalleryCategory"></div>
+      <div style="font-size:10.5px;color:#6b7280;font-weight:600;margin:14px 0 8px">Regular Shelf per Brand</div>
+      <div class="comp-gallery-grid" id="compGalleryBrand"></div>
+      <div class="comp-note">Objective: menghitung Share of Space per kategori dari foto full rack</div>
+    </div>
+
+    <div class="comp-panel comp-grid-full">
+      <div class="comp-panel-title"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 6h16" />
             <path d="M4 12h16" />
             <path d="M4 18h16" />
@@ -1758,6 +1868,7 @@
               <th data-sort="comp">Kompetitor head-to-head</th>
               <th data-sort="facingN">Facing Nabati</th>
               <th data-sort="facingC">Facing Kompetitor</th>
+              <th data-sort="variantN">Variant (N/K)</th>
               <th data-sort="priceIdx">Price Index</th>
               <th data-sort="promoC">Promo Kompetitor</th>
             </tr>
@@ -1868,7 +1979,18 @@
       const leftAdj = ALL_BRANDS[Math.floor(rnd() * ALL_BRANDS.length)];
       const rightAdj = ALL_BRANDS[Math.floor(rnd() * ALL_BRANDS.length)];
       const adjObs = [{ brand: leftAdj, side: 'kiri' }, { brand: rightAdj, side: 'kanan' }];
-      return { ...pair, facingN, facingC, priceN, priceC, priceIdx, promoN, promoC, dispN, dispC, shelfN, shelfC, adjObs };
+      // Variant: jumlah varian yang terpajang di shelving (FR-066)
+      const variantN = 1 + Math.floor(rnd() * 4); // 1-4
+      const variantC = 1 + Math.floor(rnd() * 4);
+      // Expired Date: bulan/tahun + status berdasar seberapa dekat (dummy, relatif ke "hari ini" ~ Sep 2026)
+      const expMonthOffset = -2 + Math.floor(rnd() * 16); // -2 (udah lewat 2 bulan) s/d +13 (masih 13 bulan lagi)
+      const expDate = new Date(2026, 8 + expMonthOffset, 1); // Sep 2026 sebagai baseline "hari ini"
+      const expiredLabel = String(expDate.getMonth() + 1).padStart(2, '0') + '/' + expDate.getFullYear();
+      const expiredStatus = expMonthOffset < 0 ? 'lewat' : expMonthOffset <= 2 ? 'mendekati' : 'aman';
+      // Price tag: apakah label harga tersedia & sesuai SKU di rak
+      const priceTagN = rnd() > 0.15 ? 'Y' : 'N';
+      const priceTagC = rnd() > 0.3 ? 'Y' : 'N';
+      return { ...pair, facingN, facingC, priceN, priceC, priceIdx, promoN, promoC, dispN, dispC, shelfN, shelfC, adjObs, variantN, variantC, expiredLabel, expiredStatus, priceTagN, priceTagC };
     }
 
     function getCompetitorRows() {
@@ -1895,6 +2017,16 @@
             shelfN: Math.round((s.shelfN + m.shelfN) / 2),
             shelfC: Math.round((s.shelfC + m.shelfC) / 2),
             adjObs: [...s.adjObs, ...m.adjObs],
+            variantN: Math.max(s.variantN, m.variantN),
+            variantC: Math.max(s.variantC, m.variantC),
+            ...(() => {
+              // Pilih observasi yang statusnya paling "parah" (lewat > mendekati > aman), label ikut sumber yang sama
+              const severity = { lewat: 0, mendekati: 1, aman: 2 };
+              const worse = severity[s.expiredStatus] <= severity[m.expiredStatus] ? s : m;
+              return { expiredLabel: worse.expiredLabel, expiredStatus: worse.expiredStatus };
+            })(),
+            priceTagN: (s.priceTagN === 'Y' && m.priceTagN === 'Y') ? 'Y' : 'N',
+            priceTagC: (s.priceTagC === 'Y' && m.priceTagC === 'Y') ? 'Y' : 'N',
           };
         });
       }
@@ -1913,7 +2045,39 @@
     const BRAND_COLORS = ['#94a3b8', '#60a5fa', '#c084fc', '#fb923c', '#34d399', '#f472b6', '#a3a3a3'];
     const ALL_BRANDS = [...new Set(COMPETITOR_PAIRS.map(p => p.brand))];
 
-    // Channel → available usecases (Home selalu tersedia)
+    // Kategori Jenis Promo, Materi Promo, dan Display Tambahan sesuai brief survey MTI/Alfamart
+    const PROMO_TYPE_LABELS = ['Diskon / Potongan Harga', 'Bundling / Banded', 'Hadiah / Gimmick', 'Lainnya'];
+    const PROMO_MATERIAL_LABELS = ['Wobbler', 'POP Harga Promo', 'Shelf Talker', 'Tidak Ada'];
+    const DISPLAY_TYPE_LABELS = ['Area Kasir', 'Floor Display', 'Gondola'];
+    const KONDISI_RAK_LABELS = ['Rapi', 'Kurang Rapi', 'Berantakan'];
+
+    // Breakdown per kategori (Nabati vs Kompetitor %), seeded biar stabil per filter channel/kota aktif
+    function genCategoryBreakdown(labels, seedKey) {
+      const rnd = seededRand(seedKey + '|' + state.channel + '|' + state.kota);
+      return labels.map(label => ({
+        label,
+        nabati: Math.round(10 + rnd() * 70),
+        kompetitor: Math.round(10 + rnd() * 70),
+      }));
+    }
+
+    // Distribusi kondisi rak — atribut level toko, bukan per brand (dummy, jumlah = 100%)
+    function genKondisiRakDist() {
+      const rnd = seededRand('kondisi-rak|' + state.channel + '|' + state.kota);
+      const raw = KONDISI_RAK_LABELS.map(() => 0.3 + rnd());
+      const sum = raw.reduce((a, b) => a + b, 0);
+      return KONDISI_RAK_LABELS.map((label, i) => ({ label, pct: Math.round(raw[i] / sum * 100) }));
+    }
+
+    // Pool foto dummy buat galeri Shelving Monitoring — reuse foto yang udah ada di DATA (bukan foto asli per kategori/brand)
+    const COMP_PHOTO_POOL = [
+      ...(DATA.foto_facade || []), ...(DATA.foto_kasir || []),
+      ...(DATA.foto_wide || []), ...(DATA.foto_closeup || []),
+    ];
+    const SHELVING_CATEGORIES = ['Wafer', 'Biscuit', 'Snack'];
+    const SHELVING_BRANDS = ['Wafer Nabati', 'Nextar Pie', 'RF Waffle', 'Siip Bite', 'Nextar Cookies', 'Arden', 'Tango', 'Lotte Choco Pie', 'Chitato', 'Piattos', 'Japota/Potabee'];
+
+
     const CHANNEL_USECASES = DATA.channel_usecases;
 
     // Usecase → available channels (reverse mapping)
@@ -2969,8 +3133,129 @@
       }).join('') || '<div class="no-data">Belum ada data adjacency</div>';
       document.getElementById('compAdjacencyNote').textContent = `Most Frequent Adjacent Competitor — dari ${totalObs} observasi kiri/kanan shelving (${rows.length} SKU × 2 sisi${state.channel === 'ALL' ? ' × 2 channel' : ''})`;
 
+      // ---- Compliance tambahan: Price Tag, Expired Date, Kondisi Rak (gap dari brief survey) ----
+      renderCompComplianceRow(rows);
+      renderCompPromoBreakdown();
+      renderCompDisplayKondisi();
+      renderCompExpiredTable(rows);
+      renderCompGallery();
+
       // ---- FR-066 Head-to-head table + ranking ----
       renderCompTable(rows);
+    }
+
+    // Baris compliance tambahan: Price Tag Availability + Near-Expiry SKU (dari brief PRODUCT/PRICE section)
+    function renderCompComplianceRow(rows) {
+      const tagNPct = Math.round(rows.filter(r => r.priceTagN === 'Y').length / rows.length * 100);
+      const tagCPct = Math.round(rows.filter(r => r.priceTagC === 'Y').length / rows.length * 100);
+      const nearExpiry = rows.filter(r => r.expiredStatus !== 'aman');
+      const kondisi = genKondisiRakDist();
+      const dominant = kondisi.reduce((a, b) => a.pct > b.pct ? a : b);
+      const el = document.getElementById('compComplianceRow');
+      if (!el) return;
+      el.innerHTML = `
+      <div class="stat"><div class="stat-icon" style="background:${tagNPct >= 90 ? '#dcfce7' : '#fef9c3'};color:${tagNPct >= 90 ? '#16a34a' : '#ca8a04'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 12l2 2l4 -4"/></svg></div>
+        <div class="stat-info"><div class="stat-label">PRICE TAG TERSEDIA</div><div class="stat-value">${tagNPct}%</div><div class="stat-sub">Nabati · Kompetitor ${tagCPct}%</div></div></div>
+      <div class="stat"><div class="stat-icon" style="background:${nearExpiry.length ? '#fee2e2' : '#dcfce7'};color:${nearExpiry.length ? '#dc2626' : '#16a34a'}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="stat-info"><div class="stat-label">SKU MENDEKATI/LEWAT EXPIRED</div><div class="stat-value">${nearExpiry.length}</div><div class="stat-sub">dari ${rows.length} SKU disurvey</div></div></div>
+      <div class="stat"><div class="stat-icon" style="background:#eef2ff;color:#4338ca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/></svg></div>
+        <div class="stat-info"><div class="stat-label">KONDISI RAK DOMINAN</div><div class="stat-value">${dominant.label}</div><div class="stat-sub">${dominant.pct}% outlet disurvey</div></div></div>
+    `;
+    }
+
+    // Jenis Promo & Materi Promo — breakdown per kategori (brief PROMOTION section)
+    function renderCompPromoBreakdown() {
+      const jenisEl = document.getElementById('compPromoTypeBars');
+      const materiEl = document.getElementById('compPromoMaterialBars');
+      if (!jenisEl || !materiEl) return;
+      const barRow = (label, nVal, cVal) => `
+      <div style="margin-bottom:9px">
+        <div style="font-size:10px;color:#374151;font-weight:600;margin-bottom:3px">${label}</div>
+        <div class="comp-bar-row" style="grid-template-columns:60px 1fr 40px">
+          <div class="comp-bar-label nabati" style="font-size:10px">Nabati</div>
+          <div class="comp-bar-track"><div class="comp-bar-fill nabati" style="width:${nVal}%"></div></div>
+          <div class="comp-bar-val">${nVal}%</div>
+        </div>
+        <div class="comp-bar-row" style="grid-template-columns:60px 1fr 40px">
+          <div class="comp-bar-label" style="font-size:10px">Kompetitor</div>
+          <div class="comp-bar-track"><div class="comp-bar-fill" style="width:${cVal}%"></div></div>
+          <div class="comp-bar-val">${cVal}%</div>
+        </div>
+      </div>
+    `;
+      jenisEl.innerHTML = genCategoryBreakdown(PROMO_TYPE_LABELS, 'jenis-promo').map(d => barRow(d.label, d.nabati, d.kompetitor)).join('');
+      materiEl.innerHTML = genCategoryBreakdown(PROMO_MATERIAL_LABELS, 'materi-promo').map(d => barRow(d.label, d.nabati, d.kompetitor)).join('');
+    }
+
+    // Display Tambahan per Jenis & Kondisi Rak — breakdown (brief PLACE section)
+    function renderCompDisplayKondisi() {
+      const dispEl = document.getElementById('compDisplayTypeBars');
+      const rakEl = document.getElementById('compKondisiRakBars');
+      if (!dispEl || !rakEl) return;
+      dispEl.innerHTML = genCategoryBreakdown(DISPLAY_TYPE_LABELS, 'display-jenis').map(d => `
+      <div style="margin-bottom:9px">
+        <div style="font-size:10px;color:#374151;font-weight:600;margin-bottom:3px">${d.label}</div>
+        <div class="comp-bar-row" style="grid-template-columns:60px 1fr 40px">
+          <div class="comp-bar-label nabati" style="font-size:10px">Nabati</div>
+          <div class="comp-bar-track"><div class="comp-bar-fill nabati" style="width:${d.nabati}%"></div></div>
+          <div class="comp-bar-val">${d.nabati}%</div>
+        </div>
+        <div class="comp-bar-row" style="grid-template-columns:60px 1fr 40px">
+          <div class="comp-bar-label" style="font-size:10px">Kompetitor</div>
+          <div class="comp-bar-track"><div class="comp-bar-fill" style="width:${d.kompetitor}%"></div></div>
+          <div class="comp-bar-val">${d.kompetitor}%</div>
+        </div>
+      </div>
+    `).join('');
+      const rakColors = { 'Rapi': '#16a34a', 'Kurang Rapi': '#eab308', 'Berantakan': '#dc2626' };
+      const dist = genKondisiRakDist();
+      rakEl.innerHTML = `
+      <div class="comp-stack" style="height:18px">
+        ${dist.map(d => `<div style="width:${d.pct}%;background:${rakColors[d.label]}"></div>`).join('')}
+      </div>
+      <div class="comp-stack-legend" style="margin-top:8px">
+        ${dist.map(d => `<span class="lg"><span class="dot" style="background:${rakColors[d.label]}"></span>${d.label} ${d.pct}%</span>`).join('')}
+      </div>
+      <div class="comp-note">Kondisi rak berlaku level toko, bukan per brand</div>
+    `;
+    }
+
+    // Expired Date Check — table per SKU (brief PRODUCT section)
+    function renderCompExpiredTable(rows) {
+      const el = document.getElementById('compExpiredBody');
+      if (!el) return;
+      const statusLabel = { aman: 'Aman', mendekati: 'Mendekati', lewat: 'Lewat Expired' };
+      const sorted = [...rows].sort((a, b) => {
+        const order = { lewat: 0, mendekati: 1, aman: 2 };
+        return order[a.expiredStatus] - order[b.expiredStatus];
+      });
+      el.innerHTML = sorted.map(r => `
+      <tr>
+        <td style="font-weight:600">${r.sku}</td>
+        <td>${r.expiredLabel}</td>
+        <td><span class="comp-badge ${r.expiredStatus === 'aman' ? 'good' : r.expiredStatus === 'mendekati' ? 'neutral' : 'bad'}">${statusLabel[r.expiredStatus]}</span></td>
+      </tr>
+    `).join('');
+    }
+
+    // Galeri foto Shelving Monitoring — dummy, reuse foto yang udah ada di DATA (brief SHELVING MONITORING section)
+    function renderCompGallery() {
+      const catEl = document.getElementById('compGalleryCategory');
+      const brandEl = document.getElementById('compGalleryBrand');
+      if (!catEl || !brandEl) return;
+      const photoAt = i => COMP_PHOTO_POOL.length ? COMP_PHOTO_POOL[i % COMP_PHOTO_POOL.length] : '';
+      catEl.innerHTML = SHELVING_CATEGORIES.map((label, i) => `
+      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i)}', 'Full Rack — ${label}')">
+        <img src="${photoAt(i)}" alt="${label}" loading="lazy">
+        <div class="comp-gallery-label">${label}</div>
+      </div>
+    `).join('');
+      brandEl.innerHTML = SHELVING_BRANDS.map((label, i) => `
+      <div class="comp-gallery-item" onclick="openPhotoModal('${photoAt(i + 3)}', 'Reg Shelf — ${label}')">
+        <img src="${photoAt(i + 3)}" alt="${label}" loading="lazy">
+        <div class="comp-gallery-label">${label}</div>
+      </div>
+    `).join('');
     }
 
     function renderCompTable(rows) {
@@ -2984,7 +3269,7 @@
       });
       const tbody = document.getElementById('compTableBody');
       if (filtered.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="no-data">Tidak ada hasil untuk pencarian ini</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="7" class="no-data">Tidak ada hasil untuk pencarian ini</td></tr>';
         return;
       }
       tbody.innerHTML = filtered.map(r => {
@@ -2995,6 +3280,7 @@
         <td>${r.comp}</td>
         <td>${r.facingN}</td>
         <td>${r.facingC}</td>
+        <td>${r.variantN} / ${r.variantC}</td>
         <td><span class="comp-badge ${idxCls}">${r.priceIdx}</span></td>
         <td>${r.promoC}%</td>
       </tr>
