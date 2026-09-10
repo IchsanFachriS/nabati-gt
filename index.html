@@ -3215,11 +3215,22 @@
     // Expired Date Check — dibuat per OUTLET (dummy, seeded per nama outlet), dipanggil dari panel klik-marker
     function buildOutletExpiredHTML(outlet) {
       const statusLabel = { aman: 'Aman', mendekati: 'Mendekati', lewat: 'Lewat Expired' };
+      const fmtFull = d => String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+
+      // Tanggal survey outlet — dummy, jatuh di dalam rentang tanggal yang lagi difilter
+      const dfromInput = document.querySelectorAll('.date-input')[0], dtoInput = document.querySelectorAll('.date-input')[1];
+      const dfrom = dfromInput ? new Date(dfromInput.value) : new Date(2026, 5, 25);
+      const dto = dtoInput ? new Date(dtoInput.value) : new Date(2026, 6, 3);
+      const rndVisit = seededRand('visit|' + outlet.name + '|' + state.channel);
+      const span = Math.max(0, dto - dfrom);
+      const visitDate = new Date(dfrom.getTime() + rndVisit() * span);
+
       const rows = COMPETITOR_PAIRS.map(p => {
         const rnd = seededRand('exp|' + outlet.name + '|' + p.sku);
-        const offset = -2 + Math.floor(rnd() * 16);
-        const d = new Date(2026, 8 + offset, 1);
-        const label = String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear();
+        const offset = -2 + Math.floor(rnd() * 16); // bulan dari baseline Sep 2026
+        const day = 1 + Math.floor(rnd() * 28);
+        const d = new Date(2026, 8 + offset, day);
+        const label = fmtFull(d);
         const status = offset < 0 ? 'lewat' : offset <= 2 ? 'mendekati' : 'aman';
         return { sku: p.sku, label, status };
       }).sort((a, b) => ({ lewat: 0, mendekati: 1, aman: 2 }[a.status]) - ({ lewat: 0, mendekati: 1, aman: 2 }[b.status]));
@@ -3227,8 +3238,9 @@
       const shown = top.length ? top : rows.slice(0, 3);
       return `
       <div class="cod-section-title">Expired Date Check</div>
+      <div class="cod-row"><span class="cod-label">Tanggal Survey</span><span style="font-size:10.5px;font-weight:600;color:#1a1a1a">${fmtFull(visitDate)}</span></div>
       ${shown.map(r => `
-        <div class="cod-row"><span class="cod-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px" title="${r.sku}">${r.sku}</span>
+        <div class="cod-row"><span class="cod-label" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:120px" title="${r.sku}">${r.sku}</span>
           <span style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:9.5px;color:#9ca3af">${r.label}</span><span class="comp-badge ${r.status === 'aman' ? 'good' : r.status === 'mendekati' ? 'neutral' : 'bad'}">${statusLabel[r.status]}</span></span>
         </div>
       `).join('')}
