@@ -808,7 +808,7 @@
       if (!sortState.pe) sortState.pe = { key: 'score', dir: 'asc' };
       return `
         <div class="grid kpis">
-          ${kpi('Skor Perfect Execution', pct(score), `Y ${Y} dari ${YN} jawaban`, score >= PE_THRESHOLD ? 'good' : 'bad')}
+          ${kpi('Skor Perfect Execution', pct(score), `${Y} jawaban Ya dari ${YN} jawaban`, score >= PE_THRESHOLD ? 'good' : 'bad')}
           ${kpi('Outlet Executed', `${ex} <small>/ ${rows.length}</small>`, 'Skor outlet ≥ 65%', 'good')}
           ${kpi('Outlet Not Executed', `${rows.length - ex} <small>/ ${rows.length}</small>`, 'Skor outlet < 65%', rows.length - ex ? 'bad' : 'good')}
         </div>
@@ -837,7 +837,7 @@
           ${table('pe', [
             { key: 'outlet', label: 'Outlet' }, { key: 'kota', label: 'Kota' }, { key: 'ch', label: 'Channel' },
             { key: 'date', label: 'Tanggal', fmt: r => fmtDate(r.date) },
-            { key: 'y', label: 'Jumlah Y', num: 1 }, { key: 'yn', label: 'Y + N', num: 1 },
+            { key: 'y', label: 'Jawaban Ya', num: 1 }, { key: 'yn', label: 'Total Jawaban', num: 1 },
             { key: 'score', label: 'Skor', num: 1, fmt: r => pct(r.score) },
             { key: 'ok', label: 'Status', fmt: r => statusBadge(r.ok) },
             { key: 'foto', label: 'Foto', sort: false, fmt: r => thumb(photo('foto_closeup', r.id), `${r.outlet} · ${fmtDate(r.date)}`) },
