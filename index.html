@@ -383,7 +383,6 @@
           <select id="fSku"></select>
         </div>
         <div class="f-actions">
-          <span class="f-note" id="fNote"></span>
           <button class="btn btn-ghost-red" id="fClear" style="display:none">Hapus filter</button>
         </div>
       </div>
@@ -391,7 +390,6 @@
   </div>
 
   <main class="page" id="page"></main>
-  <div class="footer">Mockup · data dummy 20 survei (15 SKU + kompetitor pasangan). Hanya survei berstatus Approved yang dihitung.</div>
 
   <div class="modal" id="modal">
     <button class="close" aria-label="Tutup">✕</button>
@@ -688,12 +686,12 @@
         </div>
         <div class="grid g-2-1 mb">
           <div class="card">
-            <div class="card-head"><span class="card-title">Peta outlet</span><span class="card-ref">FR-M2-04</span></div>
+            <div class="card-head"><span class="card-title">Peta outlet</span></div>
             <div id="map"></div>
             <div class="legend"><span><i style="background:var(--green)"></i>Total 4P ≥ 3,20</span><span><i style="background:var(--red)"></i>Total 4P &lt; 3,20</span></div>
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">Perbandingan channel</span><span class="card-ref">BR-02</span></div>
+            <div class="card-head"><span class="card-title">Perbandingan channel</span></div>
             <div class="table-wrap"><table>
               <thead><tr><th>Komponen</th>${chans.map(c => `<th class="num">${c.ch} <span style="font-weight:500">(${c.n})</span></th>`).join('')}</tr></thead>
               <tbody>
@@ -816,7 +814,7 @@
         </div>
         <div class="grid g-1-1 mb">
           <div class="card">
-            <div class="card-head"><span class="card-title">Kepatuhan per komponen</span><span class="card-ref">BR-03 · FR-M3-05</span></div>
+            <div class="card-head"><span class="card-title">Kepatuhan per komponen</span></div>
             <div class="bars">
               ${ynBarRow('Ketersediaan Produk', ...agg.produk)}
               ${ynBarRow('Ketersediaan Price Tag', ...agg.pricetag)}
@@ -827,7 +825,7 @@
             <div class="card-note">Komponen selain Ketersediaan Produk hanya dihitung untuk SKU yang tersedia.</div>
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">Foto validasi</span><span class="card-ref">FR-M3-06</span></div>
+            <div class="card-head"><span class="card-title">Foto validasi</span></div>
             <div class="photos">${rows.slice(0, 6).map(r => {
               const u = photo('foto_closeup', r.sv.id); const cap = `${r.sv.name} · ${fmtDate(r.sv.date)}`;
               return `<button class="photo" data-photo="${esc(u)}" data-cap="${esc(cap)}"><img loading="lazy" src="${esc(u)}" alt=""><span class="cap">${esc(cap)}</span></button>`;
@@ -862,7 +860,7 @@
           ${pa.varian.map(v => kpi(`Varian dipajang · ${KAT_LABEL[v.kat]}`, `${num(v.avg, 1)} <small>/ ${v.max}</small>`, 'Rata-rata per outlet', 'neutral')).join('')}
         </div>
         <div class="card mb">
-          <div class="card-head"><span class="card-title">Ketersediaan per SKU</span><span class="card-ref">BR-04a · 04d · 04e</span></div>
+          <div class="card-head"><span class="card-title">Ketersediaan per SKU</span></div>
           ${table('pa', [
             { key: 'nama', label: 'SKU' }, { key: 'kat', label: 'Kategori' },
             { key: 'av', label: 'Tersedia / Wajib', num: 1, fmt: r => `${r.av} / ${r.vis}` },
@@ -874,7 +872,7 @@
           <div class="card-note">Facing (semua outlet) menghitung outlet Tidak Tersedia sebagai 0.</div>
         </div>
         <div class="card">
-          <div class="card-head"><span class="card-title">Ketersediaan per outlet</span><span class="card-ref">BR-04</span></div>
+          <div class="card-head"><span class="card-title">Ketersediaan per outlet</span></div>
           ${table('pao', [
             { key: 'outlet', label: 'Outlet' }, { key: 'kota', label: 'Kota' }, { key: 'ch', label: 'Channel' },
             { key: 'date', label: 'Tanggal', fmt: r => fmtDate(r.date) },
@@ -901,7 +899,7 @@
         </div>
         <div class="grid g-2-1">
           <div class="card">
-            <div class="card-head"><span class="card-title">Status per outlet</span><span class="card-ref">BR-05</span></div>
+            <div class="card-head"><span class="card-title">Status per outlet</span></div>
             ${table('bs', [
               { key: 'outlet', label: 'Outlet' }, { key: 'kota', label: 'Kota' },
               { key: 'date', label: 'Tanggal', fmt: r => fmtDate(r.date) },
@@ -946,21 +944,21 @@
 
         <div class="grid g-1-1 mb">
           <div class="card">
-            <div class="card-head"><span class="card-title">Share of Facing per kategori</span><span class="card-ref">BR-06</span></div>
+            <div class="card-head"><span class="card-title">Share of Facing per kategori</span></div>
             <div class="bars">${c.sof.map(s => `<div class="bar-row"><span class="lbl">${KAT_LABEL[s.kat]}</span>
               <div class="bar-track" style="height:14px"><span style="width:${s.n / Math.max(1, s.t) * 100}%;background:var(--nabati)"></span><span style="width:${s.c / Math.max(1, s.t) * 100}%;background:var(--comp)"></span><span style="width:${s.o / Math.max(1, s.t) * 100}%;background:var(--other)"></span></div>
               <span class="bar-val">${pct(s.share, 0)}</span></div>`).join('')}</div>
             <div class="legend"><span><i style="background:var(--nabati)"></i>Nabati</span><span><i style="background:var(--comp)"></i>Kompetitor pasangan</span><span><i style="background:var(--other)"></i>Brand lain</span></div>
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">Price Index per kategori</span><span class="card-ref">BR-07</span></div>
+            <div class="card-head"><span class="card-title">Price Index per kategori</span></div>
             <div class="bars">${c.piCat.map(p => barRow(KAT_LABEL[p.kat], p.pi || 0, 150, 'var(--nabati)', num(p.pi, 0))).join('')}</div>
             <div class="card-note">Harga rata-rata Nabati / harga rata-rata kompetitor pasangan × 100. Skala bar 0–150.</div>
           </div>
         </div>
 
         <div class="card mb">
-          <div class="card-head"><span class="card-title">Head-to-head per SKU</span><span class="card-ref">FR-M4-02 · 03 · 04 · 09</span></div>
+          <div class="card-head"><span class="card-title">Head-to-head per SKU</span></div>
           ${table('h2h', [
             { key: 'sku', label: 'SKU Nabati' }, { key: 'comp', label: 'Kompetitor pasangan' },
             { key: 'nf', label: 'Facing N', num: 1 }, { key: 'cf', label: 'Facing K', num: 1 },
@@ -973,7 +971,7 @@
 
         <div class="grid g-1-1 mb">
           <div class="card">
-            <div class="card-head"><span class="card-title">Promo Nabati</span><span class="card-ref">FR-M4-09 · BR-12 · BR-13</span></div>
+            <div class="card-head"><span class="card-title">Promo Nabati</span></div>
             <div class="split">
               <div><div class="mini-title">Porsi jenis promo</div><div class="bars">${top(c.jenis, 6).map(([k, v]) => barRow(k, v, jenisTot, 'var(--nabati)', pct(v / jenisTot, 0))).join('') || '<div class="card-note">Tidak ada promo aktif.</div>'}</div></div>
               <div><div class="mini-title">Rata-rata diskon efektif</div><div class="bars">${Object.entries(c.disc).sort((a, b) => avg(b[1]) - avg(a[1])).map(([k, v]) => barRow(k, avg(v), .6, 'var(--green)', pct(avg(v), 0))).join('') || '<div class="card-note">Tidak ada data harga promo.</div>'}</div></div>
@@ -981,7 +979,7 @@
             <div class="card-note">Diskon = (Normal Price − harga promo per unit) / Normal Price.</div>
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">Shelf Adjacency</span><span class="card-ref">BR-09</span></div>
+            <div class="card-head"><span class="card-title">Shelf Adjacency</span></div>
             <div class="split">
               <div><div class="mini-title">Sebelah kiri</div><div class="bars">${top(c.kiri).map(([k, v]) => barRow(k, v, kiriMax, 'var(--comp)', v)).join('')}</div></div>
               <div><div class="mini-title">Sebelah kanan</div><div class="bars">${top(c.kanan).map(([k, v]) => barRow(k, v, kananMax, 'var(--comp)', v)).join('')}</div></div>
@@ -992,7 +990,7 @@
 
         <div class="grid g-1-1 exp-row">
           <div class="card">
-            <div class="card-head"><span class="card-title">Expired Date</span><span class="card-ref">BR-10 · hanya MTI</span></div>
+            <div class="card-head"><span class="card-title">Expired Date</span><span class="card-ref">Hanya MTI</span></div>
             ${state.ch === 'SAT' ? '<div class="empty">Expired Date hanya dipantau di channel MTI.</div>' : `
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
               <span class="badge b-green">Safe ${expCount.Safe}</span><span class="badge b-amber">Approaching ${expCount.Approaching}</span><span class="badge b-red">Expired ${expCount.Expired}</span>
@@ -1002,10 +1000,10 @@
               { key: 'days', label: 'Sisa hari', num: 1 },
               { key: 'st', label: 'Status', fmt: r => `<span class="badge ${r.st === 'Expired' ? 'b-red' : 'b-amber'}">${r.st}</span>` },
             ], expRows)}
-            <div class="card-note">Approaching jika ≤ ${APPROACHING_DAYS} hari sebelum kedaluwarsa (ambang sementara, menunggu keputusan Business Owner). Tabel hanya menampilkan Approaching dan Expired.</div>`}
+            <div class="card-note">Approaching jika ≤ ${APPROACHING_DAYS} hari sebelum kedaluwarsa. Tabel hanya menampilkan Approaching dan Expired.</div>`}
           </div>
           <div class="card">
-            <div class="card-head"><span class="card-title">Galeri foto Full Rack</span><span class="card-ref">FR-M4-10</span></div>
+            <div class="card-head"><span class="card-title">Galeri foto Full Rack</span></div>
             <div class="photos">${gallery.slice(0, 9).map(g => `<button class="photo" data-photo="${esc(g.u)}" data-cap="${esc(g.cap)}"><img loading="lazy" src="${esc(g.u)}" alt=""><span class="cap">${esc(g.cap)}</span></button>`).join('')}</div>
           </div>
         </div>`;
@@ -1092,9 +1090,6 @@
       const active = ['ch', 'kota', 'kat', 'sku', 'from', 'to'].filter(k => state[k] !== DEFAULTS[k]).length;
       $('#fClear').style.display = active ? '' : 'none';
       $('#fCount').textContent = active ? `(${active} aktif)` : '';
-      const outlets = new Set(list.map(s => s.oid)).size;
-      const excluded = DATA.surveys.filter(s => s.status !== 'Approved').length;
-      $('#fNote').textContent = `${list.length} kunjungan · ${outlets} outlet` + (excluded ? ` · ${excluded} survei belum Approved tidak dihitung` : '');
     }
 
     function render() {
