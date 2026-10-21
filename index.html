@@ -729,18 +729,31 @@
         <span style="color:#6b7280">P ${num(r.product)} · Pr ${num(r.price)} · Pm ${num(r.promo)} · Pl ${num(r.place)}</span>`;
     }
 
+    // Penyedia basemap (raster). Urutan = prioritas; fallback otomatis kalau tile gagal dimuat.
+    const BASEMAPS = [
+      { tiles: ['a', 'b', 'c', 'd'].map(s => `https://${s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png`), attribution: '© OpenStreetMap contributors © CARTO' },
+      { tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], attribution: '© OpenStreetMap contributors' },
+      { tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'], attribution: 'Tiles © Esri' },
+    ];
+    function basemapStyle(i) {
+      return { version: 8, sources: { base: { type: 'raster', tiles: BASEMAPS[i].tiles, tileSize: 256, maxzoom: 19, attribution: BASEMAPS[i].attribution } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
+    }
+
     function drawMap(rows) {
       const el = $('#map');
       whenMapLibre(ok => {
         if (!document.body.contains(el)) return;
         if (!ok) { fallbackMap(el, rows); return; }
         if (map) { map.remove(); map = null; }
-        map = new maplibregl.Map({
-          container: el,
-          style: { version: 8, sources: { osm: { type: 'raster', tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], tileSize: 256, attribution: '© OpenStreetMap contributors' } }, layers: [{ id: 'osm', type: 'raster', source: 'osm' }] },
-          center: [110, -6.8], zoom: 5, cooperativeGestures: true
-        });
+        map = new maplibregl.Map({ container: el, style: basemapStyle(0), center: [110, -6.8], zoom: 5, cooperativeGestures: true });
         map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+        // Kalau tile dari penyedia pertama gagal dimuat, pindah ke penyedia berikutnya (marker tetap)
+        let provider = 0, errors = 0, loaded = false;
+        map.on('sourcedata', e => { if (e.sourceId === 'base' && e.tile) loaded = true; });
+        map.on('error', e => {
+          if (loaded || !e.sourceId || e.sourceId !== 'base') return;
+          if (++errors >= 4 && provider < BASEMAPS.length - 1) { errors = 0; map.setStyle(basemapStyle(++provider)); }
+        });
         markers = rows.map(r => {
           const d = document.createElement('div');
           d.className = 'marker ' + (r.total >= TOTAL_GREEN ? 'good' : 'bad');
