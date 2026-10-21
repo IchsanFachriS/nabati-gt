@@ -731,9 +731,8 @@
 
     // Penyedia basemap (raster). Urutan = prioritas; fallback otomatis kalau tile gagal dimuat.
     const BASEMAPS = [
-      { tiles: ['a', 'b', 'c', 'd'].map(s => `https://${s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png`), attribution: '© OpenStreetMap contributors © CARTO' },
+      { tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'], attribution: 'Tiles © Esri — Esri, HERE, Garmin, © OpenStreetMap contributors' },
       { tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'], attribution: '© OpenStreetMap contributors' },
-      { tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}'], attribution: 'Tiles © Esri' },
     ];
     function basemapStyle(i) {
       return { version: 8, sources: { base: { type: 'raster', tiles: BASEMAPS[i].tiles, tileSize: 256, maxzoom: 19, attribution: BASEMAPS[i].attribution } }, layers: [{ id: 'base', type: 'raster', source: 'base' }] };
