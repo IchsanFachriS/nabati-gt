@@ -724,7 +724,24 @@
     function popupHTML(r) {
       return `<strong>${esc(r.outlet)}</strong><br><span style="color:#6b7280">${esc(r.kota)} · ${r.ch} · ${fmtDate(r.date)}</span><br>
         Total 4P: <strong style="color:${r.total >= TOTAL_GREEN ? '#16a34a' : '#dc2626'}">${num(r.total)}</strong><br>
-        <span style="color:#6b7280">P ${num(r.product)} · Pr ${num(r.price)} · Pm ${num(r.promo)} · Pl ${num(r.place)}</span>`;
+        <span style="color:#6b7280">P ${num(r.product)} · Pr ${num(r.price)} · Pm ${num(r.promo)} · Pl ${num(r.place)}</span>${expiredPopup(r)}`;
+    }
+
+    // Expired Date level outlet (hanya MTI), tampil di popup peta
+    function expiredPopup(r) {
+      const sv = DATA.surveys.find(s => s.id === r.id);
+      if (!sv || sv.ch !== 'MTI') return '';
+      const items = expiredOf([sv], skuIdx());
+      if (!items.length) return '';
+      const n = { Safe: 0, Approaching: 0, Expired: 0 };
+      items.forEach(e => n[e.st]++);
+      const warn = items.filter(e => e.st !== 'Safe').sort((a, b) => a.days - b.days);
+      const pill = (st, bg, fg) => `<span style="background:${bg};color:${fg};border-radius:99px;padding:1px 7px;font-size:11px;font-weight:700;margin-right:4px">${st} ${n[st]}</span>`;
+      return `<div style="border-top:1px solid #e5e7eb;margin-top:8px;padding-top:8px">
+        <div style="font-weight:700;margin-bottom:4px">Expired Date</div>
+        <div style="margin-bottom:${warn.length ? 6 : 0}px">${pill('Safe', '#dcfce7', '#16a34a')}${pill('Approaching', '#fef3c7', '#d97706')}${pill('Expired', '#fee2e2', '#dc2626')}</div>
+        ${warn.map(e => `<div style="display:flex;justify-content:space-between;gap:10px;font-size:12px"><span>${esc(SKUS[e.i].nama)}</span><span style="color:${e.st === 'Expired' ? '#dc2626' : '#d97706'};white-space:nowrap">${e.exp}</span></div>`).join('')}
+      </div>`;
     }
 
     // Penyedia basemap (raster). Urutan = prioritas; fallback otomatis kalau tile gagal dimuat.
@@ -754,7 +771,7 @@
         markers = rows.map(r => {
           const d = document.createElement('div');
           d.className = 'marker ' + (r.total >= TOTAL_GREEN ? 'good' : 'bad');
-          const m = new maplibregl.Marker({ element: d }).setLngLat([r.lng, r.lat]).setPopup(new maplibregl.Popup({ offset: 10, closeButton: false }).setHTML(popupHTML(r))).addTo(map);
+          const m = new maplibregl.Marker({ element: d }).setLngLat([r.lng, r.lat]).setPopup(new maplibregl.Popup({ offset: 10, closeButton: false, maxWidth: '300px' }).setHTML(popupHTML(r))).addTo(map);
           m._rid = r.id; return m;
         });
         const b = new maplibregl.LngLatBounds();
